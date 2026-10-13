@@ -1,0 +1,9 @@
+region,producto,unidades,precio_unitario
+Norte,Sensor A,12.0,19.5
+Sur,Sensor B,4.0,32.0
+Norte,Sensor A,7.0,19.5
+Este,Gateway,2.0,120.0
+Oeste,Sensor A,15.0,19.5
+Norte,Gateway,1.0,120.0
+Este,Sensor B,9.0,32.0
+Norte,Sensor A,8.0,19.5
