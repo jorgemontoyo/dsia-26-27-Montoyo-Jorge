@@ -1,0 +1,52 @@
+{
+  "train_rows": 6800,
+  "test_rows": 1700,
+  "random_state": 42,
+  "baseline_majority": {
+    "accuracy": 0.5252941176470588,
+    "f1_macro": 0.17219436945622832
+  },
+  "random_forest": {
+    "accuracy": 0.7194117647058823,
+    "f1_macro": 0.6528342010946289,
+    "report_by_class": {
+      "Mild Deficit": {
+        "precision": 0.5286783042394015,
+        "recall": 0.5286783042394015,
+        "f1-score": 0.5286783042394015,
+        "support": 401.0
+      },
+      "Moderate Debt": {
+        "precision": 0.7887323943661971,
+        "recall": 0.8779395296752519,
+        "f1-score": 0.830948595654478,
+        "support": 893.0
+      },
+      "Optimal Recovery": {
+        "precision": 0.7041666666666667,
+        "recall": 0.6101083032490975,
+        "f1-score": 0.6537717601547389,
+        "support": 277.0
+      },
+      "Severe Sleep Debt": {
+        "precision": 0.8923076923076924,
+        "recall": 0.4496124031007752,
+        "f1-score": 0.5979381443298969,
+        "support": 129.0
+      },
+      "accuracy": 0.7194117647058823,
+      "macro avg": {
+        "precision": 0.7284712643949894,
+        "recall": 0.6165846350661315,
+        "f1-score": 0.6528342010946289,
+        "support": 1700.0
+      },
+      "weighted avg": {
+        "precision": 0.7214705218490429,
+        "recall": 0.7194117647058823,
+        "f1-score": 0.7130975847652166,
+        "support": 1700.0
+      }
+    }
+  }
+}
