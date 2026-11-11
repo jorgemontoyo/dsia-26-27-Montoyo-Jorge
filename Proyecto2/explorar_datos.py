@@ -4,7 +4,6 @@ import csv
 from collections import Counter
 from pathlib import Path
 
-hola 
 
 DATA_PATH = Path(__file__).with_name("Datos.csv")
 TARGET = "sleep_debt_category"
