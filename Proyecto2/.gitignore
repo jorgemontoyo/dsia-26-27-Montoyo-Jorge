@@ -1,5 +1,8 @@
 .venv/
 .uv-cache/
+.env
+salida/
+salida-*/
 __pycache__/
 .pytest_cache/
 *.pyc
