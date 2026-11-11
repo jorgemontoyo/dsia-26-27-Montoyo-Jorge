@@ -1,4 +1,4 @@
-"""Entrena y evalúa un clasificador inicial de deuda de sueño."""
+"""Entrenamiento reproducible del clasificador de deuda de sueño."""
 
 import json
 from pathlib import Path
@@ -13,31 +13,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
+from .config import CATEGORICAL_FEATURES, FEATURES, NUMERIC_FEATURES, TARGET
 
-PROJECT_DIR = Path(__file__).resolve().parent
+
+PROJECT_DIR = Path(__file__).resolve().parents[1]
 DATA_PATH = PROJECT_DIR / "Datos.csv"
 ARTIFACTS_DIR = PROJECT_DIR / "artifacts"
-TARGET = "sleep_debt_category"
-
-CATEGORICAL_FEATURES = [
-    "gender",
-    "occupation_type",
-    "chronotype",
-    "primary_bedtime_app",
-]
-NUMERIC_FEATURES = [
-    "age",
-    "bedtime_phone_minutes",
-    "screen_brightness_pct",
-    "blue_light_filter_active",
-    "caffeine_post_5pm_mg",
-    "physical_activity_min",
-]
-FEATURES = CATEGORICAL_FEATURES + NUMERIC_FEATURES
 
 
 def build_model() -> Pipeline:
-    """Guarda el preprocesado y el clasificador en un único objeto."""
+    """Crea el preprocesado y clasificador como un pipeline único."""
     preprocessor = ColumnTransformer(
         transformers=[
             ("categoricas", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL_FEATURES),
@@ -60,8 +45,15 @@ def build_model() -> Pipeline:
     )
 
 
-def main() -> None:
-    data = pd.read_csv(DATA_PATH)
+def train_model(
+    data_path: Path = DATA_PATH,
+    artifacts_dir: Path = ARTIFACTS_DIR,
+) -> dict:
+    """Entrena, evalúa y guarda el modelo y sus métricas; devuelve el informe."""
+    if not data_path.is_file():
+        raise FileNotFoundError(f"No existe el CSV de entrenamiento: {data_path}")
+
+    data = pd.read_csv(data_path)
     required = set(FEATURES + [TARGET])
     missing_columns = required - set(data.columns)
     if missing_columns:
@@ -102,14 +94,19 @@ def main() -> None:
         },
     }
 
-    ARTIFACTS_DIR.mkdir(exist_ok=True)
-    joblib.dump(model, ARTIFACTS_DIR / "modelo.joblib", compress=3)
-    (ARTIFACTS_DIR / "metricas.json").write_text(
+    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, artifacts_dir / "modelo.joblib", compress=3)
+    (artifacts_dir / "metricas.json").write_text(
         json.dumps(metrics, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    return metrics
 
-    print(f"Entrenamiento: {len(x_train)} filas; prueba: {len(x_test)} filas")
+
+def main() -> None:
+    """Punto de entrada para `python -m sleep_app.train`."""
+    metrics = train_model()
+    print(f"Entrenamiento: {metrics['train_rows']} filas; prueba: {metrics['test_rows']} filas")
     print(
         "Referencia (clase mayoritaria): "
         f"accuracy={metrics['baseline_majority']['accuracy']:.3f}, "

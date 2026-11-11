@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from entrenar_modelo import CATEGORICAL_FEATURES, FEATURES, NUMERIC_FEATURES
+from .config import CATEGORICAL_FEATURES, FEATURES, NUMERIC_FEATURES
 
 
 class InputValidationError(Exception):

@@ -26,7 +26,7 @@ def load_data(path: Path) -> pd.DataFrame:
 
 
 def load_model(path: Path) -> Pipeline:
-    """Carga el pipeline de scikit-learn generado por entrenar_modelo.py."""
+    """Carga el pipeline de scikit-learn generado por sleep_app.train."""
     if not path.is_file():
         raise ModelLoadError(f"No existe el modelo entrenado: {path}")
     try:

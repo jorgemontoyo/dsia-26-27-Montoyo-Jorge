@@ -46,12 +46,12 @@ Se usó Python 3.14.7. Desde esta carpeta, en PowerShell:
 ```powershell
 python -m venv --without-pip .venv
 uv pip install --python .venv\Scripts\python.exe -r requirements.txt
-.\.venv\Scripts\python.exe entrenar_modelo.py
+.\.venv\Scripts\python.exe -m sleep_app.train
 ```
 
 El Python 3.14 instalado en este equipo no completó la instalación de `pip` dentro del entorno; por eso usamos `--without-pip` y el instalador `uv`, que ya está disponible. El entorno `.venv` contiene las dependencias y está excluido de Git. `requirements.txt` fija las versiones usadas en esta primera ejecución. En otro equipo donde `pip` funcione normalmente, también puedes usar `python -m venv .venv` y `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`.
 
-`entrenar_modelo.py` separa el 80 % de los registros para entrenar y el 20 % para probar, conservando la proporción de las cuatro clases (`stratify`). Primero calcula una referencia que siempre predice la clase mayoritaria. Luego entrena un `RandomForestClassifier`. Las categorías se codifican con `OneHotEncoder` dentro de un `Pipeline`; así, el preprocesado se aprende únicamente con el conjunto de entrenamiento y queda guardado junto al modelo.
+`sleep_app.train` separa el 80 % de los registros para entrenar y el 20 % para probar, conservando la proporción de las cuatro clases (`stratify`). Primero calcula una referencia que siempre predice la clase mayoritaria. Luego entrena un `RandomForestClassifier`. Las categorías se codifican con `OneHotEncoder` dentro de un `Pipeline`; así, el preprocesado se aprende únicamente con el conjunto de entrenamiento y queda guardado junto al modelo. Las variables compartidas por entrenamiento e inferencia están definidas en `sleep_app/config.py`.
 
 Los resultados se escriben en `artifacts/metricas.json` y el modelo completo en `artifacts/modelo.joblib`. Ambos se pueden regenerar con el comando anterior. La métrica F1 macro da el mismo peso a cada clase, incluidas las minoritarias.
 
@@ -86,7 +86,7 @@ La ejecución produce:
 | `salida/ai_summary.json` | Proveedor, tarea, modelo y texto del resumen (`mock` o Hugging Face) |
 | `salida/run.log` | Inicio, resultado o error de la ejecución |
 
-Las métricas del pipeline describen las predicciones del lote; no son métricas de calidad del modelo. La evaluación sobre datos etiquetados está en `artifacts/metricas.json` y se regenera al ejecutar `entrenar_modelo.py`.
+Las métricas del pipeline describen las predicciones del lote; no son métricas de calidad del modelo. La evaluación sobre datos etiquetados está en `artifacts/metricas.json` y se regenera al ejecutar `python -m sleep_app.train`.
 
 ## Pruebas
 
@@ -114,7 +114,6 @@ La clase `Severe Sleep Debt` obtuvo **recall 0,45**: el modelo detectó menos de
 ## Próximas etapas
 
 1. Analizar las métricas por categoría y comprobar errores frecuentes.
-2. Añadir pruebas unitarias y de integración para la carga, validación e inferencia del modelo.
-3. Añadir pruebas unitarias y de integración para el cliente IA (mock, sin red) y seguir completando la documentación.
+2. Ampliar las pruebas según evolucione el pipeline y sus integraciones.
 
 La estructura se ampliará en el Proyecto III con una API o aplicación y despliegue.
