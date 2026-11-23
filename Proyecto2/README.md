@@ -12,7 +12,7 @@ Este proyecto es un ejercicio educativo. La etiqueta del dataset no equivale a u
 - Tamaño: 8.500 filas y 18 columnas.
 - Calidad observada: sin celdas vacías y sin `user_id` duplicados.
 - Fuente confirmada por el autor del proyecto: [Sleep Debt & Screen Time: Late Night Phone Habits, de Samar Talwar, en Kaggle](https://www.kaggle.com/datasets/samartalwar/sleep-debt-and-screen-time-late-night-phone-habits).
-- Licencia del **dataset**: pendiente de verificar en la ficha original. La licencia de un notebook que use estos datos no determina la licencia del CSV.
+- Licencia del **dataset**: https://creativecommons.org/licenses/by-sa/4.0/
 
 La variable objetivo está distribuida así:
 
